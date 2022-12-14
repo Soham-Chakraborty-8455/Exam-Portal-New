@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -11,14 +11,15 @@ class Students(db.Model):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     phone_number = db.Column(db.Integer, unique=True, nullable=False)
+    marks = db.Column(db.Integer, nullable=False)
 
 with app.app_context():
     db.create_all()
     db.session.commit()
 
-@app.route("/")
-def hello_world():
-    return "<p>Student Table</p>"
+@app.route("/", methods=["GET", "POST"])
+def user_create():
+    return jsonify(request.json)
 
 if __name__ == "__main__":
     app.run(debug=True)
