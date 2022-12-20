@@ -13,6 +13,10 @@ class Students(db.Model):
     phone_number = db.Column(db.Integer, unique=True, nullable=False)
 
 
+with app.app_context():
+    db.create_all()
+    db.session.commit()
+
 @app.route("/signup", methods=["GET", "POST"])
 def user_create():
     if request.method == 'POST':
@@ -26,14 +30,16 @@ def user_create():
             db.session.commit()
         return render_template('Signup.html')
     else:
-        return render_template_string('The user exists', errorCode='404'), 404
+        return render_template('Signup.html')
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    enrollment_number = request.json['enrollment_number']
-    phone_number = request.json['phone_number']
-    login = db.one_or_404(db.select(Students).filter_by(enrollment_number=enrollment_number, phone_number=phone_number))
-    return render_template("login.html", login=login)
+    if request.method=="POST":
+        enrollment_number = request.json['enrollment_number']
+        phone_number = request.json['phone_number']
 
+with app.app_context():
+    user=Students.query.filter_by(phone_number=8617257351).first()
+    print(user)
 if __name__ == "__main__":
     app.run(debug=True)
