@@ -1,4 +1,4 @@
-from flask import Flask,  request, jsonify, render_template
+from flask import Flask,  request, render_template, render_template_string
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -24,16 +24,16 @@ def user_create():
         with app.app_context():
             db.session.add(users)
             db.session.commit()
-        return render_template()
+        return render_template('Signup.html')
     else:
-        return render_template()
+        return render_template_string('The user exists', errorCode='404'), 404
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     enrollment_number = request.json['enrollment_number']
     phone_number = request.json['phone_number']
-    login = Students(enrollment_number=enrollment_number, phone_number=phone_number)
-
+    login = db.one_or_404(db.select(Students).filter_by(enrollment_number=enrollment_number, phone_number=phone_number))
+    return render_template("login.html", login=login)
 
 if __name__ == "__main__":
     app.run(debug=True)

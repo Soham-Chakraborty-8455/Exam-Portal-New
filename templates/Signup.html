@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+
+<body>
+    <div class="mb-3">
+        <label for="EnrollNo" class="form-label">Enrollment No</label>
+        <input class="form-control" type="text" id="EnrollNo" />
+    </div>
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input class="form-control" type="text" id="Name" />
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input class="form-control" type="email" id="Email" />
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input class="form-control" minlength="10" maxlength="10" type="text" id="phone" />
+    </div>
+    <button id='button'>Submit</button>
+</body>
+<script>
+
+    const button = document.getElementById('button');
+
+
+    button.addEventListener('click', function () {
+        sendData();
+    })
+    const sendData = async () => {
+        const Enroll = document.getElementById('EnrollNo').value;
+        const Phone = document.getElementById('phone').value;
+        const Name = document.getElementById('Name').value;
+        const Email = document.getElementById('Email').value;
+        const Response = await fetch('/signup', {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({
+                'enrollment_number': Enroll,
+                'name': Name,
+                "email": Email,
+                'phone_number': Phone
+            })
+        })
+        const Data = Response.json();
+        console.log(Data)
+    }
+
+
+
+</script>
+
+</html>
