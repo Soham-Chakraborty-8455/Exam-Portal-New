@@ -7,20 +7,24 @@
     <title>Document</title>
 </head>
 <body>
-    <form class="form" method="post">
+    <form class="form" method="POST">
         <h2 style="text-align: center;">Form</h2>
+        <div class="mb-3">
+                <label for="ExamName" class="form-label">Exam Name</label>
+                <input type="text" name="ExamName" id="ExamName" required>
+            </div>
         <div>
             <span class="mb-3">
                 <label for="SubCode" class="form-label">Subject Code</label>
-                <input type="text" name="" id="SubCode" required>
+                <input type="text" name="SubjectCode" id="SubCode" required>
             </span>
             <span class="mb-3">
                 <label for="Semester" class="form-label">Semester</label>
-                <input type="number" name="" id="Semester" required>
+                <input type="text" name="" id="Semester" required>
             </span>
             <span class="mb-3">
-                <label for="EndTime" class="form-label">Session</label>
-                <select required>
+                <label for='Session' class="form-label">Session</label>
+                <select required id="Session">
                     <option>2022-2023</option>
                 </select>
             </span>
@@ -28,35 +32,35 @@
         <div>
             <span class="mb-3">
                 <label for="StartDate" class="form-label">Start Date</label>
-                <input type="date" name="" id="StartDate" required>
+                <input type="date" name="Date" id="StartDate" required>
             </span>
             <span class="mb-3">
                 <label for="StartTime" class="form-label">Start Time</label>
-                <input type="time" name="" id="StartTime" required>
+                <input type="time" name="StartTime" id="StartTime" required>
             </span>
             <span class="mb-3">
                 <label for="EndTime" class="form-label">End Time</label>
-                <input type="time" name="" id="EndTime" required>
+                <input type="time" name="EndTime" id="EndTime" required>
             </span>
         </div>
         <hr>
         <div>
             <span class="mb-3">
                 <label for="CorrectMarks" class="form-label">Correct Marks</label>
-                <input type="number" min="1" name="" id="CorrectMarks" required>
+                <input type="text" min="1" name="" id="CorrectMarks" required>
             </span>
             <span class="mb-3">
                 <label for="NegativeMarks" class="form-label">Negative Marks</label>
-                <input type="number" name="" max="0" id="NegativeMarks" required>
+                <input type="text" name="" max="0" id="NegativeMarks" required>
             </span>
             <span class="mb-3">
-                <label for="CorrectOption" class="form-label">Correct Option Number</label>
-                <input type="number" name="" min="0" max="4" id="CorrectOption" required>
+                <label for="CorrectAnswer" class="form-label">Correct Option Number</label>
+                <input type="text" name="" min="0" max="4" id="CorrectAnswer" required>
             </span>
         </div>
         <div class="mb-3">
-            <label for="Question" class="form-label">Question</label>
-            <textarea class="form-control" id="Question" rows="3"></textarea>
+            <label for="QuestionValue" class="form-label">Question</label>
+            <input type="text" class="form-control" id="QuestionValue" rows="3">
         </div>
         <div class="mb-3">
             <label for="QImage" class="form-label">Question Image</label>
