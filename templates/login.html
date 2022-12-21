@@ -23,9 +23,10 @@
 </body>
 <script>
     const button = document.getElementById('button');
-    button.onclick = function(){
+
+    button.addEventListener('click', function () {
         sendData();
-    };
+    })
 
     const sendData = async () => {
         const Enroll = document.getElementById('EnrollNo').value;

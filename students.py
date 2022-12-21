@@ -1,4 +1,4 @@
-from flask import Flask,  request, render_template, render_template_string
+from flask import Flask,  request, render_template, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -37,9 +37,16 @@ def login():
     if request.method=="POST":
         enrollment_number = request.json['enrollment_number']
         phone_number = request.json['phone_number']
+        with app.app_context():
+            enrol=Students.query.filter_by(phone_number=phone_number).first()
+            phone=Students.query.filter_by(enrollment_number=enrollment_number).first()
+            if(enrol==phone):
+                print("SUCCESS")
 
-with app.app_context():
-    user=Students.query.filter_by(phone_number=8617257351).first()
-    print(user)
+            else:
+                print("FAIL")
+
+    return render_template('login.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
