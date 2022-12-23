@@ -42,7 +42,6 @@ def login():
             phone=Students.query.filter_by(enrollment_number=enrollment_number).first()
             if(enrol==phone):
                 print("SUCCESS")
-
             else:
                 print("FAIL")
 
