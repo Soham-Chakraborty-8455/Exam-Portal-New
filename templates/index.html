@@ -148,7 +148,7 @@
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify({
+            body: JSON.stringify({ExamPaper:{
                 ExamName: ExamName,
                 SubjectCode: SubjectCode,
                 Session: Session,
@@ -156,7 +156,7 @@
                 StartTime: StartTime,
                 EndTime: EndTime,
                 QuestionData: QData,
-            }),
+            }}),
         });
         const Data = Response.json();
         console.log(Data);

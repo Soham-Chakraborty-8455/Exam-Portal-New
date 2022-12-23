@@ -7,10 +7,10 @@ from mongo import insertDocument, readDocuments
 
 app = Flask(__name__)
 
-@app.route('/questions', methods=['POST','GET'])
+@app.route('/data', methods=['POST','GET'])
 def add_todo():
     if request.method=='POST':
-        questionList = request.json('Data')
+        questionList = request.json['ExamPaper']
         insertDocument(questionList)
         return render_template('index.html')
     else:
