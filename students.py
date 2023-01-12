@@ -6,6 +6,7 @@ app = Flask(__name__)
 db = SQLAlchemy()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///student.db"
 db.init_app(app)
+
 class Students(db.Model):
     enrollment_number = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -44,8 +45,9 @@ def login():
                 print("SUCCESS")
             else:
                 print("FAIL")
-
     return render_template('login.html')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
