@@ -18,7 +18,8 @@ class Students(db.Model):
 class Exams(db.Model):
     examid= db.Column(db.Integer, primary_key= True)
     exam_name = db.Column(db.String, nullable= False)
-    exam_start= db.Column(db.DateTime, nullable = False)
+    exam_startDate= db.Column(db.Date, nullable = False)
+    exam_startTime = db.Column(db.Time, nullable=False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
     subject_code= db.Column(db.Integer, nullable = False)
@@ -63,9 +64,8 @@ def create_test():
         Date= request.json['Date']
         StartTime= request.json['StartTime']
         duration= request.json['duration']
-        examstarttime= datetime.strptime(Date, "%Y-%m-%d")
-        exam_start=examstarttime+' '+StartTime
-        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_start= exam_start, exam_duration= duration, session= Session)
+        examstartDate= datetime.strptime(Date, "%Y-%m-%d")
+        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=StartTime, exam_duration= duration, session= Session)
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
@@ -77,11 +77,22 @@ def create_test():
 @app.route("/startcheck", methods=["POST","GET"])
 def startcheck():
     if request.method=="POST":
+        starttest=False
         examid= request.json['examid']
         with app.app_context():
-            time= f"select exam_start from Exams where examid={examid}"
+            time= f"select exam_startTime from Exams where examid={examid}"
+            date= f"select exam_startDate from Exams where examid={examid}"
             dur= f"select exam_duration from Exams where examid={examid}"
-            nw=datetime.now()
+        nw=datetime.now()
+        currdate=nw.date()
+        currtime= nw.time()
+        if(currdate== date):
+            if(time>currtime):
+                starttest=True
+        if(starttest==True):
+            return jsonify({"examid": examid})
+
+
 
 
 @app.route("/login", methods=["GET", "POST"])
