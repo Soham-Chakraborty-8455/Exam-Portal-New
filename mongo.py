@@ -1,4 +1,5 @@
 import pymongo
+from flask import  jsonify
 
 connectionString = "mongodb+srv://IEM:IT@examinationportal.7tsx0kt.mongodb.net/?retryWrites=true&w=majority"
 client = pymongo.MongoClient(connectionString)
@@ -11,6 +12,10 @@ def insertDocument(anything):
     id=q.inserted_id
     print(f"Document with id {id} has been created")
 
+def appendDoc(marks, examid, enrollemntNo):
+    json2=jsonify({"examid": examid, "marks":marks})
+    collection.update_one({"enrollment_number": enrollemntNo}, {"$push": json2}, upsert=True)
+    print("done")
 
 # Reading a Collection
 def readDocuments(ExamName, SubjectCode, Session, Date, Semester,StartTime, EndTime):

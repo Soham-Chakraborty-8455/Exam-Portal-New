@@ -7,20 +7,14 @@ from mongo import insertDocument, readDocuments
 
 app = Flask(__name__)
 
-@app.route('/data', methods=['POST','GET'])
+@app.route('/addQ', methods=['POST','GET'])
 def questions():
     if request.method=='POST':
         questionList = request.json['ExamPaper']
         insertDocument(questionList)
-        return render_template('index.html')
+        return render_template('index1.html')
     else:
-        return render_template('index.html')
-
-
-@app.route('/examtiming', methods=['POST', 'GET'])
-def timecheker():
-    if request.method=="POST":
-        examid= request.json['examid']
+        return render_template('index1.html')
 
 
 

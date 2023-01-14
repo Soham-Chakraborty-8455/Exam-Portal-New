@@ -1,5 +1,7 @@
-from flask import Flask,  request, render_template, redirect, flash
+from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+from mongo import insertDocument, appendDoc
 
 app = Flask(__name__)
 
@@ -13,6 +15,14 @@ class Students(db.Model):
     email = db.Column(db.String, unique=True, nullable=False)
     phone_number = db.Column(db.Integer, unique=True, nullable=False)
 
+class Exams(db.Model):
+    examid= db.Column(db.Integer, primary_key= True)
+    exam_name = db.Column(db.String, nullable= False)
+    exam_start= db.Column(db.DateTime, nullable = False)
+    ## 2022-03-21 19:04:14
+    exam_duration = db.Column(db.Integer, nullable = False)
+    subject_code= db.Column(db.Integer, nullable = False)
+    session= db.Column(db.Integer, nullable = False)
 
 with app.app_context():
     db.create_all()
@@ -29,9 +39,50 @@ def user_create():
         with app.app_context():
             db.session.add(users)
             db.session.commit()
+        j=jsonify({"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number})
+        insertDocument(j)
         return render_template('Signup.html')
     else:
         return render_template('Signup.html')
+
+@app.route("/marks/<int:enrollment_number>", methods=["POST", "GET"])
+def marksadd(enrollment_number):
+    if request.method=="POST":
+        marks=request.json['marks']
+        examid=request.json["examid"]
+        appendDoc(marks, examid, enrollment_number)
+    return render_template('index1.html')
+
+
+@app.route("/createTest", methods=["POST", "GET"])
+def create_test():
+    if request.method=="POST":
+        ExamName=request.json['ExamName']
+        SubjectCode= request.json['SubjectCode']
+        Session= request.json['Session']
+        Date= request.json['Date']
+        StartTime= request.json['StartTime']
+        duration= request.json['duration']
+        examstarttime= datetime.strptime(Date, "%Y-%m-%d")
+        exam_start=examstarttime+' '+StartTime
+        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_start= exam_start, exam_duration= duration, session= Session)
+        with app.app_context():
+            db.session.add(exams)
+            db.session.commit()
+            examid= f"select examid from Exams where exam_name={ExamName}"
+            print(examid)
+        return jsonify({'examid': examid})
+    return render_template('index1.html')
+
+@app.route("/startcheck", methods=["POST","GET"])
+def startcheck():
+    if request.method=="POST":
+        examid= request.json['examid']
+        with app.app_context():
+            time= f"select exam_start from Exams where examid={examid}"
+            dur= f"select exam_duration from Exams where examid={examid}"
+            nw=datetime.now()
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

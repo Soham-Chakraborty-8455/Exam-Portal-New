@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="Stylesheet" href="index.css" />
+</head>
+
+<body>
+        <h2 style="text-align: center">Form</h2>
+        <div class="mb-3">
+            <label for="ExamName" class="form-label">Exam Name</label>
+            <input type="text" class="form-control" id="ExamName" rows="3"></textarea>
+        </div>
+        <div>
+            <span class="mb-3">
+                <label for="SubjectCode" class="form-label">Subject Code</label>
+                <input type="text" name="" id="SubjectCode" required />
+            </span>
+            <span class="mb-3">
+                <label for="Semester" class="form-label">Semester</label>
+                <input type="number" name="" id="Semester" required />
+            </span>
+            <span class="mb-3">
+                <label for="Session" class="form-label">Session</label>
+                <select required id="Session">
+                    <option>2022-2023</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            <span class="mb-3">
+                <label for="Date" class="form-label">Start Date</label>
+                <input type="date" name="" id="Date" required />
+            </span>
+            <span class="mb-3">
+                <label for="StartTime" class="form-label">Start Time</label>
+                <input type="time" name="" id="StartTime" required />
+            </span>
+            <span class="mb-3">
+                <label for="duration" class="form-label">Duration</label>
+                <input type="text" name="" id="duration" required />
+            </span>
+        </div>
+        <hr />
+        <br>
+        <div style="padding: 20px; border: black solid 2px;  margin: 20px;">
+            <div>
+                <span class="mb-3">
+                    <label for="CorrectMarks" class="form-label">Correct Marks</label>
+                    <input type="number" min="1" name="" id="CorrectMarks" required />
+                </span>
+                <span class="mb-3">
+                    <label for="NegativeMarks" class="form-label">Negative Marks</label>
+                    <input type="number" name="" max="0" id="NegativeMarks" required />
+                </span>
+                <span class="mb-3">
+                    <label for="CorrectAnswer" class="form-label">Correct Option Number</label>
+                    <input type="number" name="" min="0" max="4" id="CorrectAnswer" required />
+                </span>
+            </div>
+            <div class="mb-3">
+                <label for="Question" class="form-label">Question</label>
+                <textarea class="form-control" id="Question" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="QImage" class="form-label">Question Image</label>
+                <input class="form-control" type="file" id="QImage" />
+            </div>
+            <div class="mb-3">
+                <label for="Option1" class="form-label">Option 1</label>
+                <textarea class="form-control" id="Option1" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="O1Image" class="form-label">Option 1 Image</label>
+                <input class="form-control" type="file" id="O1Image" />
+            </div>
+            <div class="mb-3">
+                <label for="Option2" class="form-label">Option2</label>
+                <textarea class="form-control" id="Option2" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="O2Image" class="form-label">Option 2 Image</label>
+                <input class="form-control" type="file" id="O2Image" />
+            </div>
+            <div class="mb-3">
+                <label for="Option3" class="form-label">Option 3</label>
+                <textarea class="form-control" id="Option3" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="O3Image" class="form-label">Option 3 Image</label>
+                <input class="form-control" type="file" id="O3Image" />
+            </div>
+            <div class="mb-3">
+                <label for="Option4" class="form-label">Option 4</label>
+                <textarea class="form-control" id="Option4" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="O4Image" class="form-label">Option 4 Image</label>
+                <input class="form-control" type="file" id="O4Image" />
+            </div>
+            <button id="button1">Submit</button>
+        </div>
+        <button id="button2">Submit</button>
+</body>
+<script>
+    const button1 = document.getElementById("button1");
+    button1.onclick = function () {
+        addQ();
+    };
+    const button2 = document.getElementById("button2");
+    button2.onclick = function () {
+        createTest();
+        addQuestion();
+    };
+    let QData = [];
+    let examid ='';
+    const addQ = () => {
+        const Question = document.getElementById("Question").value;
+        const Option1 = document.getElementById("Option1").value;
+        const Option2 = document.getElementById("Option2").value;
+        const Option3 = document.getElementById("Option3").value;
+        const Option4 = document.getElementById("Option4").value;
+        const CorrectMarks = document.getElementById("CorrectMarks").value;
+        const NegativeMarks = document.getElementById("NegativeMarks").value;
+        const CorrectAnswer = document.getElementById("CorrectAnswer").value;
+        QData.push({
+            Question,
+            Options: [Option1, Option2, Option3, Option4],
+            CorrectMarks: CorrectMarks,
+            NegativeMarks: NegativeMarks,
+            CorrectAnswer: CorrectAnswer
+        })
+    }
+    const createTest = async () => {
+        const ExamName = document.getElementById("ExamName").value;
+        const SubjectCode = document.getElementById("SubjectCode").value;
+        const Session = document.getElementById("Session").value;
+        const Semester = document.getElementById("Semester").value;
+        const Date = document.getElementById("Date").value;
+        const StartTime = document.getElementById("StartTime").value;
+        const duration = document.getElementById("duration").value;
+        // const Response = await fetch("/createTest", {
+        //     method: "POST",
+        //     headers: {
+        //         "content-type": "application/json",
+        //     },
+        //     body: JSON.stringify({
+        //         ExamName: ExamName,
+        //         SubjectCode: SubjectCode,
+        //         Session: Session,
+        //         Date: Date,
+        //         StartTime: StartTime,
+        //         duration: duration,
+        //     }),
+        // });
+        // const Data = Response.json();
+        // examid = Data;
+
+        console.log({
+                ExamName: ExamName,
+                SubjectCode: SubjectCode,
+                Session: Session,
+                Date: Date,
+                StartTime: StartTime,
+                duration: duration,
+            })
+    };
+    const addQuestion = async () => {
+        // const Response = await fetch("/addQ", {
+        //     method: "POST",
+        //     headers: {
+        //         "content-type": "application/json",
+        //     },
+        //     body: JSON.stringify({'ExamPaper':{examId:examid, QuestionData: QData}}),
+        // });
+        // const Data = Response.json();
+        console.log({'ExamPaper':{examId:examid, QuestionData: QData}})
+    };
+</script>
+
+</html>
