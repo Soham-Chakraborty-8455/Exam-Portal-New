@@ -164,7 +164,8 @@ def teacherlogin():
 def enterexamcode():
     if request.method=="POST":
         examCode= request.json['examCode']
-
+        qp= readDocuments(examCode)
+        return jsonify({"questionpaper": qp})
 
 
 if __name__ == "__main__":

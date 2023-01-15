@@ -21,7 +21,8 @@ def appendDoc(marks, examid, enrollemntNo):
 def readDocuments(ExamId):
     questions = collection.find({},{'examId':ExamId})
     for element in questions:
-        print(element)
+        return element
+
 
 
 
