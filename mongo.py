@@ -18,14 +18,8 @@ def appendDoc(marks, examid, enrollemntNo):
     print("done")
 
 # Reading a Collection
-def readDocuments(ExamName, SubjectCode, Session, Date, Semester,StartTime, EndTime):
-    questions = collection.find({'ExamName':ExamName,
-            'SubjectCode':SubjectCode,
-            'Session':Session,
-            'Date':Date,
-            'Semester': Semester,
-            'StartTime':StartTime,
-            'EndTime':EndTime,})
+def readDocuments(ExamId):
+    questions = collection.find({},{'examId':ExamId})
     for element in questions:
         print(element)
 
