@@ -39,7 +39,7 @@ with app.app_context():
     db.create_all()
     db.session.commit()
 
-####=======================DATABASE ENDS HERE=========================================================================####
+####=====================================DATABASE ENDS HERE=========================================================================####
 
 
 ####==================================STUDENT SECTION STARTS==========================================================================####
@@ -56,9 +56,7 @@ def user_create():
             db.session.commit()
         j=jsonify({"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number})
         insertDocument(j)
-        return render_template('Signup.html')
-    else:
-        return render_template('Signup.html')
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -69,20 +67,21 @@ def login():
             enrol=Students.query.filter_by(phone_number=phone_number).first()
             phone=Students.query.filter_by(enrollment_number=enrollment_number).first()
             if(enrol==phone):
-                print("SUCCESS")
+                auth=True
             else:
-                print("FAIL")
-    return render_template('login.html')
+                auth=False
+    return jsonify({"auth":auth})
 
 ####===========================STUDENT SECTION ENDS========================================================================================####
 
 @app.route("/marks/<int:enrollment_number>", methods=["POST", "GET"])
 def marksadd(enrollment_number):
     if request.method=="POST":
+        enrollment=request.json['enrollment']
         marks=request.json['marks']
         examid=request.json["examid"]
         appendDoc(marks, examid, enrollment_number)
-    return render_template('index1.html')
+
 
 
 @app.route("/createTest", methods=["POST", "GET"])
@@ -92,10 +91,11 @@ def create_test():
         SubjectCode= request.json['SubjectCode']
         Session= request.json['Session']
         Date= request.json['Date']
-        StartTime= request.json['StartTime']
+        Starttime= request.json['StartTime']
         semester= request.json['semester']
         duration= request.json['duration']
         examstartDate= datetime.strptime(Date, "%Y-%m-%d")
+        StartTime= datetime.strptime(Starttime, "%H:%M:%S")
         exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=StartTime, exam_duration= duration, session= Session, semester=semester)
         with app.app_context():
             db.session.add(exams)
@@ -103,34 +103,32 @@ def create_test():
             examid= f"select examid from Exams where exam_name={ExamName}"
             print(examid)
         return jsonify({'examid': examid})
-    return render_template('index1.html')
 
-@app.route("/startcheck", methods=["POST","GET"])
-def startcheck():
-    if request.method=="POST":
-        starttest=False
-        examid= request.json['examid']
-        with app.app_context():
-            time= f"select exam_startTime from Exams where examid={examid}"
-            date= f"select exam_startDate from Exams where examid={examid}"
-            dur= f"select exam_duration from Exams where examid={examid}"
-        nw=datetime.now()
-        currdate=nw.date()
-        currtime= nw.time()
-        if(currdate== date):
-            if(time>currtime):
-                starttest=True
-        if(starttest==True):
-            return jsonify({"examid": examid})
+
+# @app.route("/startcheck", methods=["POST","GET"])
+# def startcheck():
+#     if request.method=="POST":
+#         starttest=False
+#         examid= request.json['examid']
+#         with app.app_context():
+#             time= f"select exam_startTime from Exams where examid={examid}"
+#             date= f"select exam_startDate from Exams where examid={examid}"
+#             dur= f"select exam_duration from Exams where examid={examid}"
+#         nw=datetime.now()
+#         currdate=nw.date()
+#         currtime= nw.time()
+#         if(currdate== date):
+#             if(time>currtime):
+#                 starttest=True
+#         if(starttest==True):
+#             return jsonify({"examid": examid})
 
 @app.route('/addQ', methods=['POST','GET'])
 def questions():
     if request.method=='POST':
         questionList = request.json['ExamPaper']
         insertDocument(questionList)
-        return render_template('index1.html')
-    else:
-        return render_template('index1.html')
+
 
 @app.route('/teachersignup', methods=["POST", "GET"])
 def teachersignup():
@@ -153,20 +151,40 @@ def teacherlogin():
         with app.app_context():
             q1=f"select phoneNumber from Teacher where teacherid={teacherid}"
             if(phoneNumber==q1):
-                print("Success")
+                auth=True
             else:
-                print("Fail")
+                auth=False
             q2=f"select name from Teacher where teacherid={teacherid}"
 
-        return jsonify({'teachername': q2})
+        return jsonify({'teachername': q2, "auth": auth})
 
 @app.route('/entercode', methods=["POST", "GET"])
 def enterexamcode():
     if request.method=="POST":
         examCode= request.json['examCode']
         qp= readDocuments(examCode)
-        return jsonify({"questionpaper": qp})
+        with app.app_context():
+            q2=f"select exam_duration from Exams where examid={examCode}"
+            q3= f"select exam_startTime from Exams where examid={examCode}"
+            q4= f"select exam_startDate from Exams where examid={examCode}"
+        dur= q2*1000
+        nw = datetime.now()
+        currdate=nw.date()
+        currtime= nw.time()
+        if(q4==currdate):
+            diff= q3-currtime
+            ms = diff.total_seconds() * 1000
+        else:
+            datediff= currdate-q4
+            diff = q3 - currtime
+            totaldiff= datediff*24*60*60 +diff
+            ms = totaldiff.total_seconds() * 1000
+        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
 
+
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug=True)
