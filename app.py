@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 from mongo import insertDocument, readDocuments
 
 
-app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__)
 
 db = SQLAlchemy()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///student.db"
@@ -55,7 +55,8 @@ def user_create():
             db.session.add(users)
             db.session.commit()
         j=jsonify({"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number})
-        insertDocument(j)
+        dict= {"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number}
+        insertDocument(dict)
 
 
 @app.route("/login", methods=["GET", "POST"])
