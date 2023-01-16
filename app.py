@@ -4,7 +4,7 @@ from datetime import datetime
 from mongo import insertDocument, appendDoc
 from flask_pymongo import PyMongo
 from mongo import insertDocument, readDocuments
-
+import json
 
 app = Flask(__name__)
 
@@ -200,7 +200,7 @@ def enterexamcode():
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
         dict={"questionpaper": qp, "remainingTime": ms, "duration": dur}
-        return dict
+        return json.loads(json.dumps(dict))
 
 
 # with app.app_context():
