@@ -21,8 +21,8 @@ class Students(db.Model):
 class Exams(db.Model):
     examid= db.Column(db.Integer, primary_key= True)
     exam_name = db.Column(db.String, nullable= False)
-    exam_startDate= db.Column(db.Date, nullable = False)
-    exam_startTime = db.Column(db.Time, nullable=False)
+    exam_startDate= db.Column(db.String, nullable = False)
+    exam_startTime = db.Column(db.String, nullable=False)
     semester= db.Column(db.Integer, nullable= False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
