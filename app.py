@@ -200,9 +200,9 @@ def enterexamcode():
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
         dict={"questionpaper": qp, "remainingTime": ms, "duration": dur}
-        return jsonify(dict)
+        return dict
 
-#
+
 # with app.app_context():
 #     ExamName= "Midsem 1 Digital Electronics"
 #     q1 = f"select examid from Exams where exam_name= {ExamName}"
