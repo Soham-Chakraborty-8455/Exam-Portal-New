@@ -101,7 +101,7 @@ def create_test():
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
-            examid= f"select examid from Exams where exam_name={ExamName}"
+            examid= db.engine.execute(f"select examid from Exams where exam_name={ExamName}")
             print(examid)
         return jsonify({'examid': examid})
 
@@ -150,8 +150,11 @@ def teacherlogin():
         teacherid=request.json["teacherid"]
         phoneNumber=request.json["phoneNumber"]
         with app.app_context():
-            q1=f"select phoneNumber from Teacher where teacherid={teacherid}"
-            if(int(phoneNumber)==q1):
+            q0=f"select phoneNumber from Teacher where teacherid={teacherid}"
+            q=db.engine.execute(q0)
+            for i in q:
+                q1=i[0]
+            if(phoneNumber==q1):
                 auth=True
             else:
                 auth=False
@@ -182,6 +185,13 @@ def enterexamcode():
             ms = totaldiff.total_seconds() * 1000
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
 
+#
+# with app.app_context():
+#     teacherid= 2346897942603653
+#     q1 = f"select phoneNumber from Teacher where teacherid={teacherid}"
+#     q=db.engine.execute(q1)
+#     for i in q:
+#         print(i[0])
 
 @app.route('/')
 def home():
