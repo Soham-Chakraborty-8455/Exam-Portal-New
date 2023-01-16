@@ -95,7 +95,14 @@ def create_test():
         Starttime= request.json['StartTime']
         semester= request.json['semester']
         duration= request.json['duration']
+<<<<<<< HEAD
         exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= Date, exam_startTime=Starttime, exam_duration= duration, session= Session, semester=semester)
+=======
+        examstartDate= datetime.strptime(Date, "%Y-%m-%d")
+        StartTime= datetime.strptime(Starttime, "%H:%M")
+        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=StartTime, exam_duration= duration, session= Session, semester=semester)
+
+>>>>>>> 7a7af9af098da8d21ed79d7403777cbf11f58162
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
