@@ -103,10 +103,10 @@ def create_test():
             db.session.add(exams)
             db.session.commit()
         with app.app_context():
-            quer=f"select examid from Exams where exam_startDate={Date} and exam_startTime={Starttime}"
-            examid= db.engine.execute(quer)
-            for i in examid:
-                id= i[0]
+            q2 = Exams.query.filter_by(exam_name=ExamName).first()
+            print(type(q2))
+            print(q2)
+            id=q2.examid
         return jsonify({'examid': id})
 
 
@@ -203,11 +203,13 @@ def enterexamcode():
 
 #
 # with app.app_context():
-#     teacherid= 2346897942603653
-#     q1 = f"select phoneNumber from Teacher where teacherid={teacherid}"
-#     q=db.engine.execute(q1)
-#     for i in q:
-#         print(i[0])
+#     ExamName= "Midsem 1 Digital Electronics"
+#     q1 = f"select examid from Exams where exam_name= {ExamName}"
+#     q2 = Exams.query.filter_by(exam_name=ExamName).first()
+#     print(type(q2))
+#     print(q2)
+#     print(q2.examid)
+
 
 @app.route('/')
 def home():
