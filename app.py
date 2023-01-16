@@ -26,8 +26,8 @@ class Exams(db.Model):
     semester= db.Column(db.Integer, nullable= False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
-    subject_code= db.Column(db.Integer, nullable = False)
-    session= db.Column(db.Integer, nullable = False)
+    subject_code= db.Column(db.String, nullable = False)
+    session= db.Column(db.String, nullable = False)
 
 class Teacher(db.Model):
     teacherid= db.Column(db.String, nullable = False, primary_key=True)
