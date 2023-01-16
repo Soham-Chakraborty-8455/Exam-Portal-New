@@ -21,8 +21,8 @@ class Students(db.Model):
 class Exams(db.Model):
     examid= db.Column(db.Integer, primary_key= True)
     exam_name = db.Column(db.String, nullable= False)
-    exam_startDate= db.Column(db.Date, nullable = False)
-    exam_startTime = db.Column(db.Time, nullable=False)
+    exam_startDate= db.Column(db.String, nullable = False)
+    exam_startTime = db.Column(db.String, nullable=False)
     semester= db.Column(db.Integer, nullable= False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
@@ -95,10 +95,7 @@ def create_test():
         Starttime= request.json['StartTime']
         semester= request.json['semester']
         duration= request.json['duration']
-        examstartDate= datetime.strptime(Date, "%Y-%m-%d")
-        StartTime= datetime.strptime(Starttime, "%H:%M:%S")
-        ExamStartTime= datetime.strptime(examstartDate+StartTime, "%Y-%m-%d%H:%M:%S")
-        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=ExamStartTime, exam_duration= duration, session= Session, semester=semester)
+        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= Date, exam_startTime=Starttime, exam_duration= duration, session= Session, semester=semester)
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
@@ -180,9 +177,9 @@ def enterexamcode():
             for i in q01:
                 q2=i[0]
             for i in q02:
-                q3=i[0]
+                q3=datetime.strptime(i[0], "%Y-%m-%d")
             for i in q03:
-                q4=i[0]
+                q4=datetime.strptime(i[0], "%H:%M:%S")
         dur= int(q2)*60*1000
         nw = datetime.now()
         currdate=nw.date()
