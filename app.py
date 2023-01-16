@@ -134,7 +134,7 @@ def questions():
     if request.method=='POST':
         questionList = request.json['ExamPaper']
         insertDocument(questionList)
-
+        return jsonify({'trigger':True})
 
 @app.route('/teachersignup', methods=["POST", "GET"])
 def teachersignup():
