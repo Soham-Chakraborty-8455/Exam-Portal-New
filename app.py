@@ -103,7 +103,7 @@ def create_test():
             db.session.add(exams)
             db.session.commit()
         with app.app_context():
-            quer=f"select examid from exams where exam_name={ExamName}"
+            quer=f"select examid from Exams where exam_startDate={Date} and exam_startTime={Starttime}"
             examid= db.engine.execute(quer)
             for i in examid:
                 id= i[0]
