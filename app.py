@@ -1,10 +1,10 @@
+from bson import json_util
 from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from mongo import insertDocument, appendDoc
-from flask_pymongo import PyMongo
-from mongo import insertDocument, readDocuments
+from mongo import insertDocument, readDocuments, appendDoc
 import json
+
 
 app = Flask(__name__)
 
@@ -173,7 +173,8 @@ def teacherlogin():
 def enterexamcode():
     if request.method=="POST":
         examCode= request.json['examCode']
-        qp= readDocuments(examCode)
+        qpaper= readDocuments(examCode)
+        qp=parse_json(qpaper)
         with app.app_context():
             q12=f"select exam_duration from Exams where examid={examCode}"
             q13= f"select exam_startTime from Exams where examid={examCode}"
@@ -199,8 +200,10 @@ def enterexamcode():
             diff = datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
-        dict={"questionpaper": qp, "remainingTime": ms, "duration": dur}
-        return json.loads(json.dumps(dict))
+        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
+
+def parse_json(data):
+    return json.loads(json_util.dumps(data))
 
 
 # with app.app_context():
