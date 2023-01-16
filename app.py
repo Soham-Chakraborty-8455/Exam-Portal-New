@@ -199,7 +199,8 @@ def enterexamcode():
             diff = datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
-        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
+        dict={"questionpaper": qp, "remainingTime": ms, "duration": dur}
+        return jsonify(dict)
 
 #
 # with app.app_context():
