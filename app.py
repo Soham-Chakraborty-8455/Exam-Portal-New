@@ -21,8 +21,8 @@ class Students(db.Model):
 class Exams(db.Model):
     examid= db.Column(db.Integer, primary_key= True)
     exam_name = db.Column(db.String, nullable= False)
-    exam_startDate= db.Column(db.String, nullable = False)
-    exam_startTime = db.Column(db.String, nullable=False)
+    exam_startDate= db.Column(db.Date, nullable = False)
+    exam_startTime = db.Column(db.Time, nullable=False)
     semester= db.Column(db.Integer, nullable= False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
@@ -95,14 +95,10 @@ def create_test():
         Starttime= request.json['StartTime']
         semester= request.json['semester']
         duration= request.json['duration']
-<<<<<<< HEAD
+        # examstartDate= datetime.strptime(Date, "%Y-%m-%d")
+        # StartTime= datetime.strptime(Starttime, "%H:%M")
         exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= Date, exam_startTime=Starttime, exam_duration= duration, session= Session, semester=semester)
-=======
-        examstartDate= datetime.strptime(Date, "%Y-%m-%d")
-        StartTime= datetime.strptime(Starttime, "%H:%M")
-        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=StartTime, exam_duration= duration, session= Session, semester=semester)
 
->>>>>>> 7a7af9af098da8d21ed79d7403777cbf11f58162
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
