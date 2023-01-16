@@ -57,7 +57,7 @@ def user_create():
         j=jsonify({"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number})
         dict= {"enrollment_number":enrollment_number, "name":name, "email":email, "phone":phone_number}
         insertDocument(dict)
-
+        return jsonify({"auth":True})
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -142,7 +142,7 @@ def teachersignup():
         with app.app_context():
             db.session.add(addT)
             db.session.commit()
-        return  jsonify({'teachername': name})
+        return  jsonify({'teachername': name, 'auth':True})
 
 @app.route('/teacherlogin', methods=["POST","GET"])
 def teacherlogin():
