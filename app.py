@@ -98,6 +98,7 @@ def create_test():
         examstartDate= datetime.strptime(Date, "%Y-%m-%d")
         StartTime= datetime.strptime(Starttime, "%H:%M")
         exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= examstartDate, exam_startTime=StartTime, exam_duration= duration, session= Session, semester=semester)
+
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
@@ -182,7 +183,7 @@ def enterexamcode():
                 q3=i[0]
             for i in q03:
                 q4=i[0]
-        dur= q2*1000
+        dur= int(q2)*60*1000
         nw = datetime.now()
         currdate=nw.date()
         currtime= nw.time()
