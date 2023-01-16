@@ -151,7 +151,7 @@ def teacherlogin():
         phoneNumber=request.json["phoneNumber"]
         with app.app_context():
             q1=f"select phoneNumber from Teacher where teacherid={teacherid}"
-            if(phoneNumber==q1):
+            if(int(phoneNumber)==q1):
                 auth=True
             else:
                 auth=False
