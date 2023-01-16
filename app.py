@@ -103,12 +103,12 @@ def create_test():
             db.session.add(exams)
             db.session.commit()
         with app.app_context():
-            quer=f"select examid from Exams where exam_name={ExamName}"
+            quer=f"select examid from exams where exam_name={ExamName}"
             examid= db.engine.execute(quer)
-
             for i in examid:
                 id= i[0]
         return jsonify({'examid': id})
+
 
 
 # @app.route("/startcheck", methods=["POST","GET"])
