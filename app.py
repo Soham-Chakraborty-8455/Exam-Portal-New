@@ -189,14 +189,14 @@ def enterexamcode():
                 q4=i[0]
         dur= int(q2)*60*1000
         nw = datetime.now()
-        currdate=nw.date()
+        currdate=nw.strftime("%Y-%m-%d")
         currtime= nw.strftime("%H:%M:%S")
         if(q4==currdate):
             diff= datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             ms = diff.total_seconds() * 1000
         else:
-            datediff= currdate-q4
-            diff = q3 - currtime
+            datediff= datetime.strptime(currdate, "%Y-%m-%d")-datetime.strptime(q4, "%Y-%m-%d")
+            diff = datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
@@ -210,8 +210,9 @@ def enterexamcode():
 #     print(q2)
 #     print(q2.examid)
 # nw= datetime.now()
-#
-# currtime=nw.strftime("%H:%M:%S")
+# currdate=nw.date()
+# currtime=nw.strftime("%Y-%m-%d")
+# print(currdate)
 # print(currtime)
 # print(type(currtime))
 
