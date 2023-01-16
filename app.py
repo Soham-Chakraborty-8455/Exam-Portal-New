@@ -182,7 +182,7 @@ def enterexamcode():
                 q3=i[0]
             for i in q03:
                 q4=i[0]
-        dur= q2*1000
+        dur= int(q2)*60*1000
         nw = datetime.now()
         currdate=nw.date()
         currtime= nw.time()
