@@ -158,8 +158,10 @@ def teacherlogin():
                 auth=True
             else:
                 auth=False
-            q2=f"select name from Teacher where teacherid={teacherid}"
-
+            q9=f"select name from Teacher where teacherid={teacherid}"
+            q21=db.engine.execute(q9)
+            for i in q21:
+                q2=i[0]
         return jsonify({'teachername': q2, "auth": auth})
 
 @app.route('/entercode', methods=["POST", "GET"])
@@ -168,9 +170,18 @@ def enterexamcode():
         examCode= request.json['examCode']
         qp= readDocuments(examCode)
         with app.app_context():
-            q2=f"select exam_duration from Exams where examid={examCode}"
-            q3= f"select exam_startTime from Exams where examid={examCode}"
-            q4= f"select exam_startDate from Exams where examid={examCode}"
+            q12=f"select exam_duration from Exams where examid={examCode}"
+            q13= f"select exam_startTime from Exams where examid={examCode}"
+            q14= f"select exam_startDate from Exams where examid={examCode}"
+            q01=db.engine.execute(q12)
+            q02 = db.engine.execute(q13)
+            q03 = db.engine.execute(q14)
+            for i in q01:
+                q2=i[0]
+            for i in q02:
+                q3=i[0]
+            for i in q03:
+                q4=i[0]
         dur= q2*1000
         nw = datetime.now()
         currdate=nw.date()
