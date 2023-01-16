@@ -184,15 +184,15 @@ def enterexamcode():
             for i in q01:
                 q2=i[0]
             for i in q02:
-                q3=datetime.strptime(i[0], "%Y-%m-%d")
+                q3=i[0]
             for i in q03:
-                q4=datetime.strptime(i[0], "%H:%M:%S")
+                q4=i[0]
         dur= int(q2)*60*1000
         nw = datetime.now()
         currdate=nw.date()
-        currtime= nw.time()
+        currtime= nw.strftime("%H:%M:%S")
         if(q4==currdate):
-            diff= q3-currtime
+            diff= datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             ms = diff.total_seconds() * 1000
         else:
             datediff= currdate-q4
@@ -209,7 +209,11 @@ def enterexamcode():
 #     print(type(q2))
 #     print(q2)
 #     print(q2.examid)
-
+# nw= datetime.now()
+#
+# currtime=nw.strftime("%H:%M:%S")
+# print(currtime)
+# print(type(currtime))
 
 @app.route('/')
 def home():
