@@ -102,6 +102,7 @@ def create_test():
         with app.app_context():
             db.session.add(exams)
             db.session.commit()
+        with app.app_context():
             examid= db.engine.execute(f"select examid from Exams where exam_name={ExamName}")
             print(examid)
         return jsonify({'examid': examid})
