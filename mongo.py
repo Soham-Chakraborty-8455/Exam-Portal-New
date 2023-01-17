@@ -19,12 +19,6 @@ def appendDoc(marks, examid, enrollemntNo):
 
 # Reading a Collection
 def readDocuments(ExamId):
-    questions = collection.find_one({'examid':ExamId},{'_id': 0, 'questionList': 1 })
+    questions = collection.find_one({'examid':ExamId})
     return questions
-    # for i in questions:
-    #     print(i)
-#
-# readDocuments(16)
-
-
 
