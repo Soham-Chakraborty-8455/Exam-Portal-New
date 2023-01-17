@@ -76,7 +76,7 @@ def login():
 ####===========================STUDENT SECTION ENDS========================================================================================####
 
 @app.route("/marks/<int:enrollment_number>", methods=["POST", "GET"])
-def marksadd():
+def marksadd(enrollment_number):
     if request.method=="POST":
         enrollment=request.json['enrollment']
         marks=request.json['marks']
