@@ -13,7 +13,7 @@ def insertDocument(anything):
     print(f"Document with id {id} has been created")
 
 def appendDoc(marks, examid, enrollemntNo):
-    json2={"examid": examid, "marks":marks}
+    json2= {f"ExamId={examid}":{"examid": examid, "marks": marks}}
     collection.update_one({"enrollment_number": enrollemntNo}, {"$push": json2}, upsert=True)
     print("done")
 
