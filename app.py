@@ -173,7 +173,7 @@ def teacherlogin():
 def enterexamcode():
     if request.method=="POST":
         examCode= request.json['examCode']
-        qpaper= readDocuments(examCode)
+        qpaper= readDocuments(int(examCode))
         qp=parse_json(qpaper)
         with app.app_context():
             q12=f"select exam_duration from Exams where examid={examCode}"
