@@ -81,7 +81,7 @@ def marksadd(enrollment_number):
         enrollment=request.json['enrollment']
         marks=request.json['marks']
         examid=request.json["examid"]
-        appendDoc(marks, int(examid), int(enrollment))
+        appendDoc(marks, int(examid), int(enrollment_number))
 
 
 
