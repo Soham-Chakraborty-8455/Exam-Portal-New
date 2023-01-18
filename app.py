@@ -2,7 +2,7 @@ from bson import json_util
 from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from mongo import insertDocument, readDocuments, appendDoc
+from mongo import insertDocument, readDocuments, appendDoc, checkifexists
 import json
 
 
@@ -173,6 +173,7 @@ def teacherlogin():
 def enterexamcode():
     if request.method=="POST":
         examCode= request.json['examCode']
+        enrollment= request.json['enrollment_number']
         qpaper= readDocuments(int(examCode))
         qp=parse_json(qpaper)
         with app.app_context():
@@ -208,8 +209,9 @@ def enterexamcode():
             flag="Positive"
         else:
             flag="Negative"
+        examchecker= checkifexists(examCode, enrollment)
 
-        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag})
+        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag,  "eligibility": examchecker})
 
 
 def parse_json(data):

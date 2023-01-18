@@ -16,7 +16,7 @@ def appendDoc(marks, examid, enrollemntNo):
     d=collection.count_documents({f"ExamId={examid}":{ "$exists":True }})
     print(d)
     if(d==0):
-        json2= {f"ExamId={examid}":{"examid": examid, "marks": marks}}
+        json2= {f"ExamId={examid} for {enrollemntNo}":{"examid": examid, "marks": marks}}
         collection.update_one({"enrollment_number": enrollemntNo}, {"$push": json2}, upsert=True)
         print("done")
 
@@ -25,3 +25,11 @@ def readDocuments(ExamId):
     questions = collection.find_one({'examid':ExamId})
     return questions
 
+
+def checkifexists(examid, enrollment):
+    d = collection.count_documents({f"ExamId={examid} for {enrollment}": {"$exists": True}})
+    print(d)
+    if (d == 0):
+        return True
+    else:
+        return False
