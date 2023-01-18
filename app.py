@@ -200,7 +200,16 @@ def enterexamcode():
             diff = datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
-        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur})
+
+        currtime0 = nw.strftime("%H:%M:%S")
+        currtime1 = datetime.strptime(currtime0, "%H:%M:%S")
+        extime= datetime.strptime(q3, "%H:%M:%S")
+        if(extime>=currtime1):
+            flag="Positive"
+        else:
+            flag="Negative"
+
+        return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag})
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
@@ -219,6 +228,17 @@ def parse_json(data):
 # print(currdate)
 # print(currtime)
 # print(type(currtime))
+
+# with app.app_context():
+#     tim= "9:00:30"
+#     nw= datetime.now()
+#     currtime = nw.strftime("%H:%M:%S")
+#     currtime1=datetime.strptime(currtime, "%H:%M:%S")
+#     tim1= datetime.strptime(tim, "%H:%M:%S")
+#     if(tim1>currtime1):
+#         print("YES")
+#     else:
+#         print("NO")
 
 @app.route('/')
 def home():
