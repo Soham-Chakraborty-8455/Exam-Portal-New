@@ -13,9 +13,12 @@ def insertDocument(anything):
     print(f"Document with id {id} has been created")
 
 def appendDoc(marks, examid, enrollemntNo):
-    json2= {f"ExamId={examid}":{"examid": examid, "marks": marks}}
-    collection.update_one({"enrollment_number": enrollemntNo}, {"$push": json2}, upsert=True)
-    print("done")
+    d=collection.count_documents({f"ExamId={examid}":{ "$exists":True }})
+    print(d)
+    if(d==0):
+        json2= {f"ExamId={examid}":{"examid": examid, "marks": marks}}
+        collection.update_one({"enrollment_number": enrollemntNo}, {"$push": json2}, upsert=True)
+        print("done")
 
 # Reading a Collection
 def readDocuments(ExamId):

@@ -211,6 +211,7 @@ def enterexamcode():
 
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag})
 
+
 def parse_json(data):
     return json.loads(json_util.dumps(data))
 
