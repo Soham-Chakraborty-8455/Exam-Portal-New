@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists
 import json
+import boto3
 
 
 app = Flask(__name__)
@@ -11,6 +12,16 @@ app = Flask(__name__)
 db = SQLAlchemy()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///student.db"
 db.init_app(app)
+
+#####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
+
+# S3_BUCKET = "my-bucket-name"
+# S3_KEY = "AWS_ACCESS_KEY_ID"
+# S3_SECRET = "AWS_SECRET_ACCESS_KEY"
+# S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+
+#####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
+
 
 class Students(db.Model):
     enrollment_number = db.Column(db.Integer, primary_key=True)
@@ -75,6 +86,30 @@ def login():
 
 ####===========================STUDENT SECTION ENDS========================================================================================####
 
+#####===========================UPLOADING IMG TO AWS BUCKET=======================================#####
+
+# @app.route('/uploadimg', methods=['POST'])
+# def upload_file():
+#     file = request.files['file']
+#     s3 = boto3.client(
+#         "s3",
+#         aws_access_key_id=S3_KEY,
+#         aws_secret_access_key=S3_SECRET
+#     )
+#     s3.upload_fileobj(
+#         file,
+#         S3_BUCKET,
+#         file.filename,
+#         ExtraArgs={
+#             "ContentType": file.content_type
+#         }
+#     )
+#
+#     return "{}{}".format(S3_LOCATION, file.filename)
+
+#####===========================UPLOADING IMG TO AWS BUCKET ENDS=======================================#####
+
+
 @app.route("/marks/<int:enrollment_number>", methods=["POST", "GET"])
 def marksadd(enrollment_number):
     if request.method=="POST":
@@ -82,7 +117,6 @@ def marksadd(enrollment_number):
         marks=request.json['marks']
         examid=request.json["examid"]
         appendDoc(marks, int(examid), str(enrollment_number))
-
 
 
 @app.route("/createTest", methods=["POST", "GET"])
@@ -135,6 +169,9 @@ def questions():
         questionList = request.json['ExamPaper']
         insertDocument(questionList)
         return jsonify({'trigger':True})
+
+
+
 
 @app.route('/teachersignup', methods=["POST", "GET"])
 def teachersignup():
