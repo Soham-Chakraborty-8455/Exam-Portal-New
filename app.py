@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists
 import json
-import boto3
 
 
 app = Flask(__name__)
@@ -117,6 +116,7 @@ def marksadd(enrollment_number):
         marks=request.json['marks']
         examid=request.json["examid"]
         appendDoc(marks, int(examid), str(enrollment_number))
+        return None
 
 
 @app.route("/createTest", methods=["POST", "GET"])
@@ -282,6 +282,26 @@ def parse_json(data):
 
 @app.route('/')
 def home():
+    return render_template('index.html')
+
+@app.route('/student/login')
+def sLogin():
+    return render_template('index.html')
+
+@app.route('/teacher/login')
+def tLogin():
+    return render_template('index.html')
+
+@app.route('/student')
+def s():
+    return render_template('index.html')
+
+@app.route('/teacher')
+def t():
+    return render_template('index.html')
+
+@app.route('/teacher/<int:examid>/addQuestion')
+def qadd(examid):
     return render_template('index.html')
 
 if __name__ == "__main__":
