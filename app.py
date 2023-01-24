@@ -115,7 +115,9 @@ def marksadd(enrollment_number):
         enrollment=request.json['enrollment']
         marks=request.json['marks']
         examid=request.json["examid"]
-        appendDoc(marks, int(examid), str(enrollment_number))
+        flag=checkifexists(examid,enrollment)
+        if(flag==True):
+            appendDoc(marks, int(examid), str(enrollment_number))
         return None
 
 
@@ -234,7 +236,7 @@ def enterexamcode():
             diff= datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             ms = diff.total_seconds() * 1000
         else:
-            datediff= datetime.strptime(currdate, "%Y-%m-%d")-datetime.strptime(q4, "%Y-%m-%d")
+            datediff= datetime.strptime(q4, "%Y-%m-%d")- datetime.strptime(currdate, "%Y-%m-%d")
             diff = datetime.strptime(q3, "%H:%M:%S")-datetime.strptime(currtime, "%H:%M:%S")
             totaldiff= datediff*24*60*60 +diff
             ms = totaldiff.total_seconds() * 1000
