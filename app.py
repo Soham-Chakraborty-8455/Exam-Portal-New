@@ -50,7 +50,7 @@ verification_check = client.verify.v2.services(verify_sid) \
   .create(to=verified_number, code=otp_code)
 print(verification_check.status)
 
-####======================================TWILIO INTEGRATION====================================================####
+####======================================TWILIO INTEGRATION ENDS====================================================####
 
 class Students(db.Model):
     enrollment_number = db.Column(db.Integer, primary_key=True)
