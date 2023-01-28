@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists
 import json
-
+from twilio.rest import Client
 
 app = Flask(__name__)
 
@@ -21,6 +21,36 @@ db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
 
+####======================================TWILIO INTEGRATION====================================================####
+
+account_sid = "ACe2ba56170748bc7babe48fb27243d56f"
+auth_token = "351a3b3f0bd03dc61f6ad528d15aad7a"
+verify_sid = "VA2e90c9ad693e9d95fecc64153fac2ddd"
+@app.route("/smsotpPhone", methods=["GET", "POST"])
+def user_create():
+    if request.method == 'POST':
+        global verified_number
+        verified_number=request.json['phonenumber']
+
+client = Client(account_sid, auth_token)
+
+verification = client.verify.v2.services(verify_sid) \
+  .verifications \
+  .create(to=verified_number, channel="sms")
+print(verification.status)
+
+@app.route("/smsotpCode", methods=["GET", "POST"])
+def user_create():
+    if request.method == 'POST':
+        global otp_code
+        otp_code=request.json['otpcode']
+
+verification_check = client.verify.v2.services(verify_sid) \
+  .verification_checks \
+  .create(to=verified_number, code=otp_code)
+print(verification_check.status)
+
+####======================================TWILIO INTEGRATION====================================================####
 
 class Students(db.Model):
     enrollment_number = db.Column(db.Integer, primary_key=True)
