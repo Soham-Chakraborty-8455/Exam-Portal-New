@@ -27,7 +27,7 @@ account_sid = "ACe2ba56170748bc7babe48fb27243d56f"
 auth_token = "351a3b3f0bd03dc61f6ad528d15aad7a"
 verify_sid = "VA2e90c9ad693e9d95fecc64153fac2ddd"
 @app.route("/smsotpPhone", methods=["GET", "POST"])
-def user_create():
+def otp_create():
     if request.method == 'POST':
         global verified_number
         verified_number=request.json['phonenumber']
@@ -40,7 +40,7 @@ verification = client.verify.v2.services(verify_sid) \
 print(verification.status)
 
 @app.route("/smsotpCode", methods=["GET", "POST"])
-def user_create():
+def otp_check():
     if request.method == 'POST':
         global otp_code
         otp_code=request.json['otpcode']
@@ -48,7 +48,11 @@ def user_create():
 verification_check = client.verify.v2.services(verify_sid) \
   .verification_checks \
   .create(to=verified_number, code=otp_code)
-print(verification_check.status)
+ans= (verification_check.status)
+print(ans)
+@app.route("/statusofverification", methods=["GET", "POST"])
+def otp_verify():
+    return jsonify({"verify":ans})
 
 ####======================================TWILIO INTEGRATION ENDS====================================================####
 
