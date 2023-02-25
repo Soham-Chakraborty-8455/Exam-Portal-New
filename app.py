@@ -1,3 +1,4 @@
+import os
 from bson import json_util
 from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
@@ -7,9 +8,9 @@ import json
 from twilio.rest import Client
 
 app = Flask(__name__)
-
 db = SQLAlchemy()
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///student.db"
+# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_user:MXGyw8N4NETYDvaSGKJk1ePOggi2kYWK@dpg-cfsvlvha6gdotccdnpt0-a.singapore-postgres.render.com/iem_examination_portal"
 db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
