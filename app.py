@@ -1,7 +1,7 @@
 from bson import json_util
 from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, date
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists
 import json
 from twilio.rest import Client
@@ -172,10 +172,13 @@ def create_test():
             db.session.commit()
         with app.app_context():
             q2 = Exams.query.filter_by(exam_name=ExamName).first()
-            print(type(q2))
+            print(type(q2.examid))
             print(q2)
             id=q2.examid
-        return jsonify({'examid': id})
+            strid= str(id)
+            todays= date.today()
+            finalid= "IEM@"+ str(todays.year) + strid
+        return jsonify({'examid': finalid})
 
 
 
@@ -243,8 +246,10 @@ def teacherlogin():
 @app.route('/entercode', methods=["POST", "GET"])
 def enterexamcode():
     if request.method=="POST":
-        examCode= request.json['examCode']
+        examcode= request.json['examCode']
         enrollment= request.json['enrollment_number']
+        code= examcode[4:]
+        examCode= int(code)
         qpaper= readDocuments(int(examCode))
         qp=parse_json(qpaper)
         with app.app_context():
@@ -254,13 +259,17 @@ def enterexamcode():
             q01=db.engine.execute(q12)
             q02 = db.engine.execute(q13)
             q03 = db.engine.execute(q14)
+            l=[]
             for i in q01:
                 q2=i[0]
+                l.append(int(q2))
             for i in q02:
                 q3=i[0]
+                l.append(q3)
             for i in q03:
                 q4=i[0]
-        dur= int(q2)*60*1000
+                l.append(q4)
+        dur= q2*60*1000
         nw = datetime.now()
         currdate=nw.strftime("%Y-%m-%d")
         currtime= nw.strftime("%H:%M:%S")
@@ -284,6 +293,11 @@ def enterexamcode():
 
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag,  "eligibility": examchecker})
 
+@app.route('/markslenden', methods=["POST","GET"])
+def marksexchanger():
+    if request.method=="POST":
+        marks= request.json['marks']
+    return jsonify({"marks": marks})
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
