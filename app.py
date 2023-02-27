@@ -10,7 +10,7 @@ from twilio.rest import Client
 app = Flask(__name__)
 db = SQLAlchemy()
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_user:MXGyw8N4NETYDvaSGKJk1ePOggi2kYWK@dpg-cfsvlvha6gdotccdnpt0-a.singapore-postgres.render.com/iem_examination_portal"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_e252_user:r3OqKKUSoPVD3vRneLC3gqh2xjLCv8pY@dpg-cfu38c9a6gdotc98tfu0-a.singapore-postgres.render.com/iem_examination_portal_e252"
 db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
@@ -56,7 +56,7 @@ def otp_check(verified_number):
 ####======================================TWILIO INTEGRATION ENDS====================================================####
 
 class Students(db.Model):
-    enrollment_number = db.Column(db.Integer, primary_key=True)
+    enrollment_number = db.Column(db.BigInteger, primary_key=True)
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     phone_number = db.Column(db.String, unique=True, nullable=False)
