@@ -10,7 +10,7 @@ from twilio.rest import Client
 app = Flask(__name__)
 db = SQLAlchemy()
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_e252_user:r3OqKKUSoPVD3vRneLC3gqh2xjLCv8pY@dpg-cfu38c9a6gdotc98tfu0-a.singapore-postgres.render.com/iem_examination_portal_e252"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_yjyc_user:6uWwDM7sHO9gIcrRPaPJw6RIHaf3S4N3@dpg-cfufvmg2i3mtiq9i54u0-a.singapore-postgres.render.com/iem_examination_portal_yjyc"
 db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
@@ -64,8 +64,8 @@ class Students(db.Model):
 class Exams(db.Model):
     examid= db.Column(db.Integer, primary_key= True)
     exam_name = db.Column(db.String, nullable= False)
-    exam_startDate= db.Column(db.String, nullable = False)
-    exam_startTime = db.Column(db.String, nullable=False)
+    exam_startdate= db.Column(db.String, nullable = False)
+    exam_starttime = db.Column(db.String, nullable=False)
     semester= db.Column(db.Integer, nullable= False)
     ## 2022-03-21 19:04:14
     exam_duration = db.Column(db.Integer, nullable = False)
@@ -166,7 +166,7 @@ def create_test():
         duration= request.json['duration']
         # examstartDate= datetime.strptime(Date, "%Y-%m-%d")
         # StartTime= datetime.strptime(Starttime, "%H:%M")
-        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startDate= Date, exam_startTime=Starttime, exam_duration= duration, session= Session, semester=semester)
+        exams= Exams(exam_name=ExamName, subject_code=SubjectCode, exam_startdate= Date, exam_starttime=Starttime, exam_duration= duration, session= Session, semester=semester)
 
         with app.app_context():
             db.session.add(exams)
@@ -189,8 +189,8 @@ def create_test():
 #         starttest=False
 #         examid= request.json['examid']
 #         with app.app_context():
-#             time= f"select exam_startTime from Exams where examid={examid}"
-#             date= f"select exam_startDate from Exams where examid={examid}"
+#             time= f"select exam_starttime from Exams where examid={examid}"
+#             date= f"select exam_startdate from Exams where examid={examid}"
 #             dur= f"select exam_duration from Exams where examid={examid}"
 #         nw=datetime.now()
 #         currdate=nw.date()
@@ -215,7 +215,7 @@ def questions():
 def teachersignup():
     if request.method=="POST":
         teacherid=request.json["teacherid"]
-        phoneNumber=request.json["phoneNumber"]
+        phoneNumber=request.json["phone_number"]
         email=request.json["email"]
         name= request.json['name']
         addT=Teacher(teacherid=teacherid, phoneNumber=phoneNumber, email=email, name=name)
@@ -249,14 +249,14 @@ def enterexamcode():
     if request.method=="POST":
         examcode= request.json['examCode']
         enrollment= request.json['enrollment_number']
-        code= examcode[4:]
+        code= examcode[8:]
         examCode= int(code)
         qpaper= readDocuments(int(examCode))
         qp=parse_json(qpaper)
         with app.app_context():
-            q12=f"select exam_duration from Exams where examid={examCode}"
-            q13= f"select exam_startTime from Exams where examid={examCode}"
-            q14= f"select exam_startDate from Exams where examid={examCode}"
+            q12=f"select exam_duration from exams where examid={examCode}"
+            q13= f"select exam_starttime from exams where examid={examCode}"
+            q14= f"select exam_startdate from exams where examid={examCode}"
             q01=db.engine.execute(q12)
             q02 = db.engine.execute(q13)
             q03 = db.engine.execute(q14)
