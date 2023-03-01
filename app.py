@@ -3,7 +3,7 @@ from bson import json_util
 from flask import Flask,  request, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
-from mongo import insertDocument, readDocuments, appendDoc, checkifexists
+from mongo import insertDocument, readDocuments, appendDoc, checkifexists, fetch_marks
 import json
 from twilio.rest import Client
 
@@ -298,7 +298,9 @@ def enterexamcode():
 @app.route('/markslenden', methods=["POST","GET"])
 def marksexchanger():
     if request.method=="POST":
-        marks= request.json['marks']
+        enrollement_number= request.json['enrollment_number']
+        examid= request.json['examid']
+        marks= fetch_marks(examid, enrollement_number)
     return jsonify({"marks": marks})
 
 def parse_json(data):
