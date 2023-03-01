@@ -148,9 +148,10 @@ def marksadd(enrollment_number):
         enrollment=request.json['enrollment']
         marks=request.json['marks']
         examid=request.json["examid"]
-        flag=checkifexists(examid,enrollment)
+        examID= int(examid[8:])
+        flag=checkifexists(examID,enrollment)
         if(flag==True):
-            appendDoc(marks, int(examid), str(enrollment_number))
+            appendDoc(marks, int(examID), str(enrollment_number))
         return None
 
 
