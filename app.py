@@ -10,7 +10,7 @@ from twilio.rest import Client
 app = Flask(__name__)
 db = SQLAlchemy()
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_examination_portal_yjyc_user:6uWwDM7sHO9gIcrRPaPJw6RIHaf3S4N3@dpg-cfufvmg2i3mtiq9i54u0-a.singapore-postgres.render.com/iem_examination_portal_yjyc"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_department_examination_portal_2wei_user:PyPDk8luH7fJ6dMFnbWdzzRWB22lgtaR@dpg-cfufv802i3mtiq9i3aq0-a.singapore-postgres.render.com/iem_department_examination_portal_2wei"
 db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
@@ -75,7 +75,7 @@ class Exams(db.Model):
 class Teacher(db.Model):
     teacherid= db.Column(db.String, nullable = False, primary_key=True)
     name= db.Column(db.String, nullable= False)
-    phoneNumber= db.Column(db.String, nullable = False)
+    phonenumber= db.Column(db.String, nullable = False)
     email= db.Column(db.String, nullable = False)
 
 with app.app_context():
@@ -216,10 +216,10 @@ def questions():
 def teachersignup():
     if request.method=="POST":
         teacherid=request.json["teacherid"]
-        phoneNumber=request.json["phone_number"]
+        phonenumber=request.json["phone_number"]
         email=request.json["email"]
         name= request.json['name']
-        addT=Teacher(teacherid=teacherid, phoneNumber=phoneNumber, email=email, name=name)
+        addT=Teacher(teacherid=teacherid, phonenumber=phonenumber, email=email, name=name)
         with app.app_context():
             db.session.add(addT)
             db.session.commit()
@@ -229,13 +229,13 @@ def teachersignup():
 def teacherlogin():
     if request.method=="POST":
         teacherid=request.json["teacherid"]
-        phoneNumber=request.json["phoneNumber"]
+        phonenumber=request.json["phoneNumber"]
         with app.app_context():
-            q0=f"select phoneNumber from Teacher where teacherid={teacherid}"
+            q0=f"select phonenumber from Teacher where teacherid={teacherid}"
             q=db.engine.execute(q0)
             for i in q:
                 q1=i[0]
-            if(phoneNumber==q1):
+            if(phonenumber==q1):
                 auth=True
             else:
                 auth=False
