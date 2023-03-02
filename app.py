@@ -231,15 +231,11 @@ def teacherlogin():
         teacherid=str(request.json["teacherid"])
         phonenumber=request.json["phonenumber"]
         with app.app_context():
-            tidcheck1 = Teacher.query.filter_by(phonenumber=phonenumber).first()
+            tidcheck1 = Teacher.query.filter_by(phonenumber=str(phonenumber)).first()
             tidcheck2= Teacher.query.filter_by(teacherid=teacherid).first()
             if(tidcheck1==tidcheck2):
                 auth=True
-                q9 = f"select name from Teacher where teacherid={teacherid}"
-                q21 = db.engine.execute(q9)
-                for i in q21:
-                    q2 = i[0]
-                jsonS=jsonify({'teachername': q2, "auth": auth})
+                jsonS=jsonify({"auth": auth})
             else:
                 auth=False
                 jsonS= jsonify({'auth': auth, 'error': 'Invalid Credentials'})
