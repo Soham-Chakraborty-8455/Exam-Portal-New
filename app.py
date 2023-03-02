@@ -231,19 +231,21 @@ def teacherlogin():
         teacherid=str(request.json["teacherid"])
         phonenumber=request.json["phonenumber"]
         with app.app_context():
-            q0=f"select phonenumber from Teacher where teacherid={teacherid}"
-            q=db.engine.execute(q0)
-            for i in q:
-                q1=i[0]
-            if(phonenumber==q1):
+            tidcheck1 = Teacher.query.filter_by(phonenumber=phonenumber).first()
+            tidcheck2= Teacher.query.filter_by(teacherid=teacherid).first()
+            if(tidcheck1==tidcheck2):
                 auth=True
+                q9 = f"select name from Teacher where teacherid={teacherid}"
+                q21 = db.engine.execute(q9)
+                for i in q21:
+                    q2 = i[0]
+                jsonS=jsonify({'teachername': q2, "auth": auth})
             else:
                 auth=False
-            q9=f"select name from Teacher where teacherid={teacherid}"
-            q21=db.engine.execute(q9)
-            for i in q21:
-                q2=i[0]
-        return jsonify({'teachername': q2, "auth": auth})
+                jsonS= jsonify({'auth': auth, 'error': 'Invalid Credentials'})
+
+        return jsonS
+
 
 @app.route('/entercode', methods=["POST", "GET"])
 def enterexamcode():
