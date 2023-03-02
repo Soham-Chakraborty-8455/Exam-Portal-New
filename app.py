@@ -229,9 +229,9 @@ def teachersignup():
 def teacherlogin():
     if request.method=="POST":
         teacherid=request.json["teacherid"]
-        phonenumber=request.json["phoneNumber"]
+        phonenumber=request.json["phonenumber"]
         with app.app_context():
-            q0=f"select phonenumber from Teacher where teacherid={teacherid}"
+            q0=f"select phonenumber from Teacher where teacherid={str(teacherid)}"
             q=db.engine.execute(q0)
             for i in q:
                 q1=i[0]
