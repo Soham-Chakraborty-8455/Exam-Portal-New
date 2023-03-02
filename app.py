@@ -228,7 +228,7 @@ def teachersignup():
 @app.route('/teacherlogin', methods=["POST","GET"])
 def teacherlogin():
     if request.method=="POST":
-        teacherid=request.json["teacherid"]
+        teacherid=str(request.json["teacherid"])
         phonenumber=request.json["phonenumber"]
         with app.app_context():
             q0=f"select phonenumber from Teacher where teacherid={teacherid}"
@@ -252,7 +252,7 @@ def enterexamcode():
         enrollment= request.json['enrollment_number']
         code= examcode[8:]
         examCode= int(code)
-        qpaper= readDocuments(int(examCode))
+        qpaper= readDocuments(int(examcode))
         qp=parse_json(qpaper)
         with app.app_context():
             q12=f"select exam_duration from exams where examid={examCode}"
@@ -291,7 +291,7 @@ def enterexamcode():
             flag="Positive"
         else:
             flag="Negative"
-        examchecker= checkifexists(examCode, enrollment)
+        examchecker= checkifexists(examcode, enrollment)
 
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag,  "eligibility": examchecker})
 
