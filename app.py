@@ -254,7 +254,7 @@ def enterexamcode():
         enrollment= request.json['enrollment_number']
         code= examcode[8:]
         examCode= int(code)
-        qpaper= readDocuments(int(examcode))
+        qpaper= readDocuments(str(examcode))
         qp=parse_json(qpaper)
         with app.app_context():
             q12=f"select exam_duration from exams where examid={examCode}"
