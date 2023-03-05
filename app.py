@@ -351,6 +351,10 @@ def s():
 def t():
     return render_template('index.html')
 
+@app.route('/results/<int:enrollment>')
+def r(enrollment):
+    return render_template('index.html')
+
 @app.route('/teacher/<int:examid>/addQuestion')
 def qadd(examid):
     return render_template('index.html')
