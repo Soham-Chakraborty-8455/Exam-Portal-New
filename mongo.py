@@ -27,9 +27,10 @@ def readDocuments(ExamId):
 
 
 def fetch_marks(examID, enrollemntNo):
-    result= collection.find_one({f"ExamId={examID} for {enrollemntNo}"})
+    result= collection.find_one({"mykey": f"ExamId={examID} for {enrollemntNo}"})
     if result is not None:
-        marks = result.get("marks")
+        value = result["mykey"]
+        marks = value.get("marks")
     return marks
 
 def checkifexists(examid, enrollment):
