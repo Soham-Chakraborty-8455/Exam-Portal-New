@@ -146,14 +146,14 @@ def login():
 
 @app.route("/marks/<int:enrollment_number>", methods=["POST", "GET"])
 def marksadd(enrollment_number):
-    if request.method=="POST":
-        enrollment=request.json['enrollment']
-        marks=request.json['marks']
-        examid=request.json["examid"]
-        flag=checkifexists(examid,enrollment)
-        if(flag==True):
+    if request.method == "POST":
+        enrollment = request.json['enrollment']
+        marks = request.json['marks']
+        examid = request.json["examid"]
+        flag = checkifexists(examid, enrollment)
+        if (flag == True):
             appendDoc(marks, examid, str(enrollment_number))
-        return None
+        return "Success"
 
 
 @app.route("/createTest", methods=["POST", "GET"])
