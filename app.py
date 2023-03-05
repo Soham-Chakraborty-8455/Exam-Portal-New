@@ -39,6 +39,8 @@ def otp_create():
           .verifications \
           .create(to=verified_number, channel="sms")
         print(verification.status)
+    return jsonify({"Status": "OTP SENT SUCCUSSFULLY"})
+
 
 @app.route("/smsotpver/<path:verified_number>", methods=["GET", "POST"])
 def otp_check(verified_number):
@@ -148,10 +150,9 @@ def marksadd(enrollment_number):
         enrollment=request.json['enrollment']
         marks=request.json['marks']
         examid=request.json["examid"]
-        examID= int(examid[8:])
-        flag=checkifexists(examID,enrollment)
+        flag=checkifexists(examid,enrollment)
         if(flag==True):
-            appendDoc(marks, int(examID), str(enrollment_number))
+            appendDoc(marks, examid, str(enrollment_number))
         return None
 
 
