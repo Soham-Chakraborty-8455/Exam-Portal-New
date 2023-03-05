@@ -28,7 +28,9 @@ def readDocuments(ExamId):
 
 def fetch_marks(examID, enrollemntNo):
     result= collection.find_one({f"ExamId={examID} for {enrollemntNo}"})
-    return result
+    if result is not None:
+        marks = result.get("marks")
+    return marks
 
 def checkifexists(examid, enrollment):
     d = collection.count_documents({f"ExamId={examid} for {enrollment}": {"$exists": True}})
