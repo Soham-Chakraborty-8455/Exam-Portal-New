@@ -148,11 +148,14 @@ def login():
 def marksadd(enrollment_number):
     if request.method == "POST":
         enrollment = request.json['enrollment']
-        marks = request.json['marks']
         examid = request.json["examid"]
         flag = checkifexists(examid, enrollment)
         if (flag == True):
+            marks = request.json['marks']
             appendDoc(marks, examid, str(enrollment_number))
+        else:
+            my_marks= fetch_marks(examid, enrollment)
+            return jsonify({"marks": my_marks})
         return "Success"
 
 
@@ -294,13 +297,13 @@ def enterexamcode():
 
         return jsonify({"questionpaper": qp, "remainingTime": ms, "duration": dur, "difference": flag,  "eligibility": examchecker})
 
-@app.route('/markslenden', methods=["POST","GET"])
-def marksexchanger():
-    if request.method=="POST":
-        enrollement_number= request.json['enrollment_number']
-        examid= request.json['examid']
-        marks= fetch_marks(examid, enrollement_number)
-    return jsonify({"marks": marks})
+# @app.route('/markslenden', methods=["POST","GET"])
+# def marksexchanger():
+#     if request.method=="POST":
+#         enrollement_number= request.json['enrollment_number']
+#         examid= request.json['examid']
+#         marks= fetch_marks(examid, enrollement_number)
+#     return jsonify({"marks": marks})
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
