@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.ccd523d1.css",
-    "main.js": "/static/js/main.67fb59de.js",
+    "main.js": "/static/js/main.9937dfce.js",
     "media/IEMLogo-removebg-preview.png": "/static/media/IEMLogo-removebg-preview.b089bcc076f8b20e6e1e.png",
     "media/Hero.png": "/static/media/Hero.1d1a0f69104d5c8c5e4d.png",
     "../templates/index.html": "/static/../templates/index.html",
     "main.ccd523d1.css.map": "/static/css/main.ccd523d1.css.map",
-    "main.67fb59de.js.map": "/static/js/main.67fb59de.js.map"
+    "main.9937dfce.js.map": "/static/js/main.9937dfce.js.map"
   },
   "entrypoints": [
     "css/main.ccd523d1.css",
-    "js/main.67fb59de.js"
+    "js/main.9937dfce.js"
   ]
 }
