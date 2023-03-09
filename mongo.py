@@ -27,10 +27,20 @@ def readDocuments(ExamId):
 
 
 def fetch_marks(examID, enrollemntNo):
-    result= collection.find_one({f"ExamId={examID} for {enrollemntNo}":{"examid": examID}})
-    if result is not None:
-        marks = result.get("marks")
-    return marks
+    query= {'enrollment_number': enrollemntNo}
+    res= collection.find_one(query)
+    if res is not None:
+        # print(res)
+        result= res.get(f"ExamId={examID} for {enrollemntNo}")
+        if result is not None:
+            # print(result)
+            for i in result:
+                marks = i.get("marks")
+                # print(marks)
+                return marks
+        else:
+            return None
+
 
 def checkifexists(examid, enrollment):
     d = collection.count_documents({f"ExamId={examid} for {enrollment}": {"$exists": True}})
@@ -39,3 +49,7 @@ def checkifexists(examid, enrollment):
         return True
     else:
         return False
+
+
+ans= fetch_marks('IEM@20236', '12021002019019')
+print(ans)
