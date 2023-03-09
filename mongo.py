@@ -37,9 +37,10 @@ def fetch_marks(examID, enrollemntNo):
             for i in result:
                 marks = i.get("marks")
                 # print(marks)
-                return marks
+                status= marks
         else:
-            return None
+            status= "Marks not found"
+        return status
 
 
 def checkifexists(examid, enrollment):
@@ -50,6 +51,5 @@ def checkifexists(examid, enrollment):
     else:
         return False
 
-
-ans= fetch_marks('IEM@20236', '12021002019019')
-print(ans)
+# ans= fetch_marks('IEM@30236', '12021002019019')
+# print(ans)
