@@ -40,7 +40,7 @@ def fetch_marks(examID, enrollemntNo):
                 status= marks
         else:
             status= "Marks not found"
-        return status
+    return status
 
 
 def checkifexists(examid, enrollment):
