@@ -41,7 +41,7 @@ def fetch_marks(examID, enrollemntNo):
         else:
             status= "Marks not found"
         return status
-    return "Success"
+
 
 def checkifexists(examid, enrollment):
     d = collection.count_documents({f"ExamId={examid} for {enrollment}": {"$exists": True}})

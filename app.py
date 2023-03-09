@@ -154,7 +154,9 @@ def marksadd(enrollment_number):
             marks = request.json['marks']
             appendDoc(marks, examid, str(enrollment_number))
         else:
-            my_marks= fetch_marks(examid, enrollment)
+            my_marks= fetch_marks("IEM@202318", "12021002019019")
+            print(my_marks)
+            # my_marks= fetch_marks(examid, enrollment)
             return jsonify({"marks": my_marks})
         return "Success"
 
