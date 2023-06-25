@@ -6,11 +6,20 @@ from datetime import datetime, date
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists, fetch_marks
 import json
 from twilio.rest import Client
+from dotenv import load_dotenv
+
+
+load_dotenv()
+SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
+account_sid = os.environ.get("account_sid")
+auth_token = os.environ.get("auth_token")
+verify_sid = os.environ.get("verify_sid")
+
 
 app = Flask(__name__)
 db = SQLAlchemy()
 # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://iem_department_examination_portal_2wei_user:PyPDk8luH7fJ6dMFnbWdzzRWB22lgtaR@dpg-cfufv802i3mtiq9i3aq0-a.singapore-postgres.render.com/iem_department_examination_portal_2wei"
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 db.init_app(app)
 
 #####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
@@ -24,9 +33,9 @@ db.init_app(app)
 
 ####======================================TWILIO INTEGRATION====================================================####
 
-account_sid = "ACe2ba56170748bc7babe48fb27243d56f"
-auth_token = "351a3b3f0bd03dc61f6ad528d15aad7a"
-verify_sid = "VA2e90c9ad693e9d95fecc64153fac2ddd"
+account_sid = account_sid
+auth_token = auth_token
+verify_sid = verify_sid
 
 
 @app.route("/smsotpPhone", methods=["GET", "POST"])
