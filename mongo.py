@@ -1,13 +1,7 @@
 import pymongo
-import os
 from flask import  jsonify
-from dotenv import load_dotenv
 
-
-load_dotenv()
-connectionString = os.environ.get("connectionString")
-
-connectionString = connectionString
+connectionString = "mongodb+srv://IEM:IT@examinationportal.7tsx0kt.mongodb.net/?retryWrites=true&w=majority"
 client = pymongo.MongoClient(connectionString)
 db = client['IEM_Kolkata']
 collection = db['IEM_Questions']

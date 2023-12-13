@@ -6,62 +6,43 @@ from datetime import datetime, date
 from mongo import insertDocument, readDocuments, appendDoc, checkifexists, fetch_marks
 import json
 from twilio.rest import Client
-from dotenv import load_dotenv
-
-
-load_dotenv()
-SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI")
-account_sid = os.environ.get("account_sid")
-auth_token = os.environ.get("auth_token")
-verify_sid = os.environ.get("verify_sid")
-
 
 app = Flask(__name__)
 db = SQLAlchemy()
-# app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("Database_URL")
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_DATABASE_URI"] ="sqlite:///db.sqlite3"
 db.init_app(app)
-
-#####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
-
-# S3_BUCKET = "my-bucket-name"
-# S3_KEY = "AWS_ACCESS_KEY_ID"
-# S3_SECRET = "AWS_SECRET_ACCESS_KEY"
-# S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-
-#####============================ AMAZON S3 BUCKET CONFIFURATION=================================================####
 
 ####======================================TWILIO INTEGRATION====================================================####
 
-account_sid = account_sid
-auth_token = auth_token
-verify_sid = verify_sid
+# account_sid = Generate One
+# auth_token = Generate One
+# verify_sid = Generate One
 
 
-@app.route("/smsotpPhone", methods=["GET", "POST"])
-def otp_create():
-    if request.method == 'POST':
-        verified_number=request.json['phonenumber']
-        client = Client(account_sid, auth_token)
+# @app.route("/smsotpPhone", methods=["GET", "POST"])
+# def otp_create():
+#     if request.method == 'POST':
+#         verified_number=request.json['phonenumber']
+#         client = Client(account_sid, auth_token)
 
-        verification = client.verify.v2.services(verify_sid) \
-          .verifications \
-          .create(to=verified_number, channel="sms")
-        print(verification.status)
-    return jsonify({"Status": "OTP SENT SUCCUSSFULLY"})
+#         verification = client.verify.v2.services(verify_sid) \
+#           .verifications \
+#           .create(to=verified_number, channel="sms")
+#         print(verification.status)
+#     return jsonify({"Status": "OTP SENT SUCCUSSFULLY"})
 
 
-@app.route("/smsotpver/<path:verified_number>", methods=["GET", "POST"])
-def otp_check(verified_number):
-    if request.method == 'POST':
-        otp_code=request.json['otpcode']
-        client = Client(account_sid, auth_token)
-        verification_check = client.verify.v2.services(verify_sid) \
-          .verification_checks \
-          .create(to=verified_number, code=otp_code)
-        ans= (verification_check.status)
-        print(ans)
-        return jsonify({"verification_status":ans})
+# @app.route("/smsotpver/<path:verified_number>", methods=["GET", "POST"])
+# def otp_check(verified_number):
+#     if request.method == 'POST':
+#         otp_code=request.json['otpcode']
+#         client = Client(account_sid, auth_token)
+#         verification_check = client.verify.v2.services(verify_sid) \
+#           .verification_checks \
+#           .create(to=verified_number, code=otp_code)
+#         ans= (verification_check.status)
+#         print(ans)
+#         return jsonify({"verification_status":ans})
 
 
 ####======================================TWILIO INTEGRATION ENDS====================================================####
