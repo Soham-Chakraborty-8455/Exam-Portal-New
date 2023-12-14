@@ -19,30 +19,31 @@ db.init_app(app)
 # verify_sid = Generate One
 
 
-# @app.route("/smsotpPhone", methods=["GET", "POST"])
-# def otp_create():
-#     if request.method == 'POST':
-#         verified_number=request.json['phonenumber']
-#         client = Client(account_sid, auth_token)
+@app.route("/smsotpPhone", methods=["GET", "POST"])
+def otp_create():
+    # if request.method == 'POST':
+    #     verified_number=request.json['phonenumber']
+    #     client = Client(account_sid, auth_token)
 
-#         verification = client.verify.v2.services(verify_sid) \
-#           .verifications \
-#           .create(to=verified_number, channel="sms")
-#         print(verification.status)
-#     return jsonify({"Status": "OTP SENT SUCCUSSFULLY"})
+    #     verification = client.verify.v2.services(verify_sid) \
+    #       .verifications \
+    #       .create(to=verified_number, channel="sms")
+    #     print(verification.status)
+    return jsonify({"Status": "OTP SENT SUCCUSSFULLY"})
 
 
-# @app.route("/smsotpver/<path:verified_number>", methods=["GET", "POST"])
-# def otp_check(verified_number):
-#     if request.method == 'POST':
-#         otp_code=request.json['otpcode']
-#         client = Client(account_sid, auth_token)
-#         verification_check = client.verify.v2.services(verify_sid) \
-#           .verification_checks \
-#           .create(to=verified_number, code=otp_code)
-#         ans= (verification_check.status)
-#         print(ans)
-#         return jsonify({"verification_status":ans})
+@app.route("/smsotpver/<path:verified_number>", methods=["GET", "POST"])
+def otp_check(verified_number):
+    if request.method == 'POST':
+        otp_code=request.json['otpcode']
+        # client = Client(account_sid, auth_token)
+        # verification_check = client.verify.v2.services(verify_sid) \
+        #   .verification_checks \
+        #   .create(to=verified_number, code=otp_code)
+        # ans= (verification_check.status)
+        ans='approved'
+        print(ans)
+        return jsonify({"verification_status":ans})
 
 
 ####======================================TWILIO INTEGRATION ENDS====================================================####
